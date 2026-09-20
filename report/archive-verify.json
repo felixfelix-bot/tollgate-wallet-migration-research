@@ -1,5 +1,5 @@
 {
-  "repo": "arch-repo-1789913467",
+  "repo": "/home/c03rad0r/worktrees/t_8d4f38a2/arch-repo-1789913467",
   "old_tip_present": false,
   "wallet_detector_tree": {
     "files_scanned": 286,
@@ -8,7 +8,7 @@
     "locations": []
   },
   "wallet_detector_objects": {
-    "objects_scanned": 360,
+    "objects_scanned": 363,
     "findings": 0,
     "advisory_test_vectors": 1,
     "locations": []

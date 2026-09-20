@@ -65,14 +65,27 @@ are committed here under `report/`.
 |---|---|---|
 | fleet wallet-material detector (`detect_wallet_secrets.py`: BIP-39 mnemonics validated by checksum + Cashu bearer tokens) | working tree, 284 files | **clean** — 0 findings; 1 advisory: the canonical all-zero BIP-39 test vector in a `local-mint` README (public example data, not a secret) |
 | fleet wallet-material detector | **every blob in the object store, 357 blobs** | **clean** — 0 findings |
-| gitleaks 8.21.2 | working tree | 18 findings, **all of them matches on the redaction placeholders themselves** (`"pubkey":"REDACTED"`, `keyset=REDACTED`, `token mint: REDACTED`, `g_pubkey = "REDACTED"`) — no live value |
-| gitleaks 8.21.2 | full history, 61 commits | 18 findings, the same set, the same placeholders |
-| conservative needles over the tree **and** every blob: `cashu[AB]…` (≥40 chars), `nsec1…`, `-----BEGIN … PRIVATE KEY`, a ≥12-word run after `generated mnemonic:` | tree + all 357 blobs | **0 hits** — with the positive controls firing (both redaction markers are present — see `report/archive-verify.json` for the counts), so the scan demonstrably reads the regions the rewrite touched |
+| gitleaks 8.21.2 | working tree | 18 findings — **all 18 are the `generic-api-key` entropy rule firing on public, non-secret values**: this wallet's own advertised Nostr **pubkey** (7), public Cashu **keyset IDs** (6), a **truncated** `cashuB…` token prefix of 8 base64 chars in the fault logs (4), and the secp256k1 **generator point G** used deliberately in a P2PK test (1). Classification per finding in `report/SCAN-REPORT.md` §2 |
+| gitleaks 8.21.2 | full history, 61 commits | 18 findings, the same set, the same classification |
+| conservative needles over the tree **and** every blob: `cashu[AB]…` (≥40 chars), `nsec1…`, `-----BEGIN [A-Z ]*PRIVATE KEY`, a ≥12-word run after `generated mnemonic:` | tree + all 357 blobs | **0 hits** — with the positive controls firing (both redaction markers are present — see `report/archive-verify.json` for the counts), so the scan demonstrably reads the regions the rewrite touched |
 | pre-rewrite tip reachability | object store | `5ae015edb5` is **not present** in this repository |
 
+> **Corrected 2026-09-20.** The first version of this table said the 18 gitleaks
+> findings were "matches on the redaction placeholders themselves … no live
+> value". The conclusion was right, the reasoning was not: gitleaks had been run
+> with `--redact`, which substitutes `REDACTED` for the matched span **in
+> gitleaks' output**, so the report was read back as if the files contained the
+> word. Each finding was subsequently read out of its file and classified
+> individually (see the row above and `report/SCAN-REPORT.md` §2), and an
+> independent second pass re-scanned all objects (blobs 363 / trees 222 /
+> commits 63) with zero live secrets of either leaked class. Verdict unchanged:
+> `CLEAN`.
+
 Acceptance harness: `report/archive-verify.json`
-(`script_sha256 = ecd0d33fe1cb4db965e9582ba5def9a1d91932e9a3338313934464bec833707c`,
-verdict `CLEAN`). It is conservative by construction: it fails closed if the
+(`harness_sha256 = ecd0d33fe1cb4db965e9582ba5def9a1d91932e9a3338313934464bec833707c` —
+this is the *harness*, not the detector; the detector's own hash is
+`fd6f35fd9feb837d272db9385d3c31e3ef85ba316c99a77ebeaf62ee94922fd8`),
+verdict `CLEAN`. It is conservative by construction: it fails closed if the
 wordlist or the object enumeration is unavailable, asserts the needle set is
 non-empty, and requires the object scan to have scanned more than zero objects.
 
