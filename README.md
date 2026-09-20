@@ -1,6 +1,13 @@
 # Research: replacing `gonuts` as TollGate's Cashu wallet
 
-**Status:** in progress · **Branch:** `research/wallet-migration` · **Started:** 2026-09-13
+> **Archive, not production code.** This tree was moved out of
+> `OpenTollGate/tollgate-module-basic-go` on 2026-09-20. Nothing here is built,
+> shipped or supported, and no pull request should target this repository. Read
+> [ARCHIVE.md](ARCHIVE.md) first: provenance, the redacted branch head, and the
+> pre-publication secret-scan result.
+
+**Status:** archived 2026-09-20 · **Source branch:** `research/wallet-migration`
+(redacted head `855355c130004cbc91682f5f77354e059aaf3faf`) · **Started:** 2026-09-13
 
 ## Why
 

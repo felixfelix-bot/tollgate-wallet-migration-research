@@ -1,0 +1,28 @@
+{
+  "repo": "arch-repo-1789913467",
+  "old_tip_present": false,
+  "wallet_detector_tree": {
+    "files_scanned": 286,
+    "findings": 0,
+    "advisory_test_vectors": 1,
+    "locations": []
+  },
+  "wallet_detector_objects": {
+    "objects_scanned": 360,
+    "findings": 0,
+    "advisory_test_vectors": 1,
+    "locations": []
+  },
+  "needle_counts": {
+    "redacted_token_marker": 93,
+    "redacted_seed_marker": 3
+  },
+  "needle_samples": {},
+  "advisory_counts": {
+    "bip39_words_12plus": 4
+  },
+  "controls_ok": true,
+  "hard_needle_hits": {},
+  "verdict": "CLEAN",
+  "script_sha256": "ecd0d33fe1cb4db965e9582ba5def9a1d91932e9a3338313934464bec833707c"
+}
